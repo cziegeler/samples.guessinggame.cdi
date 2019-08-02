@@ -1,2 +1,2 @@
-# samples.guessinggame.cdi
-OSGi Guessinggame Example Using CDI
+# samples.guessinggame
+The Guessing Game OSGi Example Version 1
