@@ -21,7 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.osgi.service.cdi.annotations.Bean;
+import org.osgi.service.cdi.annotations.BeanPropertyType;
+import org.osgi.service.cdi.annotations.ComponentProperties;
 import org.osgi.service.cdi.annotations.Service;
 import org.osoco.software.samples.guessinggame.HighscoreService;
 import org.osoco.software.samples.guessinggame.Level;
@@ -29,8 +33,16 @@ import org.osoco.software.samples.guessinggame.Score;
 
 @Bean
 @Service
-//@SingleComponent
 public class HighscoreServiceImpl implements HighscoreService {
+
+    @BeanPropertyType
+    public @interface Config {
+        int maxEntries() default 10;
+    }
+
+    @Inject
+    @ComponentProperties
+    private Config configuration;
 
     private final Map<Level, List<Score>> table = new HashMap<Level, List<Score>>();
 
@@ -52,8 +64,8 @@ public class HighscoreServiceImpl implements HighscoreService {
             }
             highscores.add(score);
             Collections.sort(highscores);
-            if (highscores.size() > 10) {
-                highscores.remove(10);
+            if (highscores.size() > configuration.maxEntries()) {
+                highscores.remove(configuration.maxEntries());
             }
             table.put(level, Collections.unmodifiableList(highscores));
             return highscores.indexOf(score);
