@@ -24,7 +24,7 @@ import org.osgi.service.cdi.annotations.BeanPropertyType;
 import org.osgi.service.cdi.annotations.ComponentProperties;
 import org.osgi.service.cdi.annotations.PID;
 import org.osgi.service.cdi.annotations.Service;
-import org.osgi.service.component.propertytypes.ServiceDescription;
+import org.osgi.service.cdi.propertytypes.ServiceDescription;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.osoco.software.samples.guessinggame.Game;
@@ -32,14 +32,14 @@ import org.osoco.software.samples.guessinggame.GameController;
 import org.osoco.software.samples.guessinggame.Level;
 
 @Bean
-@Service
+@Service(GameController.class)
 @PID("org.osoco.software.samples.guessinggame.impl.GameControllerImpl")
 @ServiceDescription("This is the core game component")
 public class GameControllerImpl implements GameController {
 
     @BeanPropertyType
     @ObjectClassDefinition(name = "Game Configuration", description = "The configuration for the famous guessing game.")
-    public @interface Config {
+    public @interface GameControllerConfig {
         @AttributeDefinition(name = "Easy", description = "Maximum value for easy")
         int easy_max() default 10;
 
@@ -52,7 +52,7 @@ public class GameControllerImpl implements GameController {
 
     @Inject
     @ComponentProperties
-    private Config configuration;
+    private GameControllerConfig configuration;
 
     private final Random r = new Random();
 

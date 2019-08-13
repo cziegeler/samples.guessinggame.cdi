@@ -15,6 +15,10 @@
  */
 package org.osoco.software.samples.guessinggame.impl.cdi;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,14 +31,19 @@ import org.osgi.service.cdi.annotations.Bean;
 import org.osgi.service.cdi.annotations.BeanPropertyType;
 import org.osgi.service.cdi.annotations.ComponentProperties;
 import org.osgi.service.cdi.annotations.Service;
+import org.osgi.service.cdi.annotations.SingleComponent;
 import org.osoco.software.samples.guessinggame.HighscoreService;
 import org.osoco.software.samples.guessinggame.Level;
 import org.osoco.software.samples.guessinggame.Score;
 
 @Bean
-@Service
+@SingleComponent
+@Service(HighscoreService.class)
+@HighscoreServiceImpl.Config
 public class HighscoreServiceImpl implements HighscoreService {
 
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
     @BeanPropertyType
     public @interface Config {
         int maxEntries() default 10;
