@@ -67,6 +67,7 @@ public class GameServlet extends HttpServlet {
     private GameController game;
 
     @Inject
+    @Reference
     private HighscoreService highscore;
 
     @Override
