@@ -17,10 +17,6 @@ package org.osoco.software.samples.guessinggame.impl.cdi;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -32,8 +28,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.aries.cdi.extra.propertytypes.HttpWhiteboardContextSelect;
+import org.apache.aries.cdi.extra.propertytypes.HttpWhiteboardServletPattern;
 import org.osgi.service.cdi.annotations.Bean;
-import org.osgi.service.cdi.annotations.BeanPropertyType;
 import org.osgi.service.cdi.annotations.Reference;
 import org.osgi.service.cdi.annotations.Service;
 import org.osgi.service.cdi.annotations.SingleComponent;
@@ -46,19 +43,11 @@ import org.osoco.software.samples.guessinggame.Score;
 
 @Bean
 @SingleComponent
-@GameServlet.ServletConfig
 @Service(Servlet.class)
+@HttpWhiteboardServletPattern("/game")
+@HttpWhiteboardContextSelect("(" + HttpWhiteboardConstants.HTTP_WHITEBOARD_CONTEXT_NAME + "=" + AppServletContext.NAME
+        + ")")
 public class GameServlet extends HttpServlet {
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
-    @BeanPropertyType
-    public @interface ServletConfig {
-        String osgi_http_whiteboard_servlet_pattern() default "/game";
-
-        String osgi_http_whiteboard_context_select() default "(" + HttpWhiteboardConstants.HTTP_WHITEBOARD_CONTEXT_NAME
-                + "=" + AppServletContext.NAME + ")";
-    }
 
     private static final long serialVersionUID = -2382280784117030938L;
 

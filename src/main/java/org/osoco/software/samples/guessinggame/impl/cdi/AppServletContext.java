@@ -16,16 +16,12 @@
 package org.osoco.software.samples.guessinggame.impl.cdi;
 
 import java.io.IOException;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.aries.cdi.extra.propertytypes.HttpWhiteboardContext;
 import org.osgi.service.cdi.annotations.Bean;
-import org.osgi.service.cdi.annotations.BeanPropertyType;
 import org.osgi.service.cdi.annotations.Service;
 import org.osgi.service.cdi.annotations.SingleComponent;
 import org.osgi.service.http.context.ServletContextHelper;
@@ -36,17 +32,8 @@ import org.osgi.service.http.context.ServletContextHelper;
 @Bean
 @SingleComponent
 @Service(ServletContextHelper.class)
-@AppServletContext.ContextConfig
+@HttpWhiteboardContext(name = AppServletContext.NAME, path = "/guessinggame")
 public class AppServletContext extends ServletContextHelper {
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
-    @BeanPropertyType
-    public @interface ContextConfig {
-        String osgi_http_whiteboard_context_name() default AppServletContext.NAME;
-
-        String osgi_http_whiteboard_context_path() default "/guessinggame";
-    }
 
     public static final String NAME = "org.osoco.software.samples.guessinggame";
 

@@ -81,12 +81,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <bnd><![CDATA[
-                        -exportcontents: ${packages;VERSIONED}
-                        -removeheaders: Private-Package,Include-Resource
-                    ]]></bnd>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -134,6 +128,12 @@
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.service.http.whiteboard</artifactId>
             <version>1.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.aries.cdi</groupId>
+            <artifactId>org.apache.aries.cdi.extra</artifactId>
+            <version>1.0.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
